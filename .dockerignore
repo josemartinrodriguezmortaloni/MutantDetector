@@ -1,9 +1,51 @@
-.gradle
-build
-out
-bin
-.git
-.idea
-*.md
-*.pdf
+# ========================================
+# .dockerignore
+# ========================================
+# Archivos y directorios que NO deben copiarse al contenedor Docker
+# Esto acelera el build y reduce el tamaño de la imagen
 
+# Directorios de build
+build/
+target/
+.gradle/
+gradle/
+
+# Archivos de configuración local
+.env
+.env.local
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentación
+docs/
+*.md
+HELP.md
+
+# Tests (ya están compilados en el JAR)
+src/test/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Gradle wrapper (excepto el JAR y scripts necesarios)
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat

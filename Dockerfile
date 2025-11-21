@@ -34,10 +34,10 @@ RUN ./gradlew bootJar --no-daemon
 # Esto reduce el tamaño de la imagen final de ~500MB a ~200MB
 FROM openjdk:21-alpine
 
-# Documentar que la aplicación escucha en el puerto 8080
+# Documentar que la aplicación escucha en el puerto 8081
 # IMPORTANTE: esto NO abre el puerto, solo es documentación
-# El puerto se mapea con: docker run -p 8080:8080
-EXPOSE 8080
+# El puerto se mapea con: docker run -p 8081:8081
+EXPOSE 8081
 
 # Copiar el JAR generado en la ETAPA 1 (build) a la imagen final
 # --from=build: tomar archivo de la etapa "build" anterior
