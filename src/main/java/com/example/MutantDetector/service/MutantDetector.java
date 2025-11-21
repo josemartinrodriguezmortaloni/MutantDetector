@@ -30,6 +30,7 @@ public class MutantDetector {
             for (char c : matrix[i]){
                 if (!isValidDnaCharacter(c)) {
                     log.warn("Caracter inválido encontrado: {}", c);
+                    return false;
                 }
             }
         }

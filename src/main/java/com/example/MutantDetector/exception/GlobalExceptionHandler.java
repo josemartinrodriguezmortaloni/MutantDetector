@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExcetionHandler {
+public class GlobalExceptionHandler {
 
     // Maneja errores de validación (@Valid en DTOs)
     @ExceptionHandler(MethodArgumentNotValidException.class)
