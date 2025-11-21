@@ -35,8 +35,7 @@ public class ValidDnaSequenceValidator  implements ConstraintValidator<ValidDnaS
     }
 
     public boolean isValidCharacter(char c) {
-        return c == 'A' || c == 'T' || c == 'C' || c == 'G' ||
-               c == 'a' || c == 't' || c == 'c' || c == 'g';
+        return c == 'A' || c == 'T' || c == 'C' || c == 'G';
     }
     
 }

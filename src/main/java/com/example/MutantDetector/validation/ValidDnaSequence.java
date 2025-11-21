@@ -16,7 +16,7 @@ import jakarta.validation.Payload;
 public @interface ValidDnaSequence {
     String message() default "Invalid DNA sequence";
 
-    Class<?>[] group() default {};
+    Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     
 }

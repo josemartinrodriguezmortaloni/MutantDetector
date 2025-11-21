@@ -159,4 +159,4 @@ La API está preparada para ser desplegada en servicios cloud como Render.
 URL de producción: `[INSERTA_TU_URL_DE_RENDER_AQUI]`
 
 ---
-*Desarrollado para el Examen de MercadoLibre.*
+*Desarrollado por José Martín Rodriguez Mortaloni.*
