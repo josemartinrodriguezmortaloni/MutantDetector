@@ -34,7 +34,7 @@ class MutantControllerTest {
         String[] dna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
         DnaRequest request = new DnaRequest(dna);
 
-        mockMvc.perform(post("/mutant")
+        mockMvc.perform(post("/api/mutant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
@@ -46,7 +46,7 @@ class MutantControllerTest {
         String[] dna = {"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"};
         DnaRequest request = new DnaRequest(dna);
 
-        mockMvc.perform(post("/mutant")
+        mockMvc.perform(post("/api/mutant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isForbidden());
@@ -58,7 +58,7 @@ class MutantControllerTest {
         String[] dna = {"ATGC", "CAG"}; // Invalid size
         DnaRequest request = new DnaRequest(dna);
 
-        mockMvc.perform(post("/mutant")
+        mockMvc.perform(post("/api/mutant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -71,15 +71,15 @@ class MutantControllerTest {
         String[] mutantDna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
         String[] humanDna = {"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"};
         
-        mockMvc.perform(post("/mutant")
+        mockMvc.perform(post("/api/mutant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna))));
         
-        mockMvc.perform(post("/mutant")
+        mockMvc.perform(post("/api/mutant")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new DnaRequest(humanDna))));
 
-        mockMvc.perform(get("/stats"))
+        mockMvc.perform(get("/api/stats"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.count_mutant_dna").exists())
                 .andExpect(jsonPath("$.count_human_dna").exists())

@@ -1,7 +1,17 @@
 package com.example.MutantDetector.service;
 
-import com.example.MutantDetector.model.DnaRecord;
-import com.example.MutantDetector.repository.DnaRecordRepository;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,12 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import com.example.MutantDetector.model.DnaRecord;
+import com.example.MutantDetector.repository.DnaRecordRepository;
 
 @ExtendWith(MockitoExtension.class)
 class MutantServiceTest {
@@ -51,6 +57,7 @@ class MutantServiceTest {
         
         when(dnaRecordRepository.findByDnaHash(anyString())).thenReturn(Optional.empty());
         when(mutantDetector.isMutant(dna)).thenReturn(true);
+        when(dnaRecordRepository.save(any(DnaRecord.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         boolean result = mutantService.analyzeDna(dna);
 
@@ -68,6 +75,7 @@ class MutantServiceTest {
 
         when(dnaRecordRepository.findByDnaHash(anyString())).thenReturn(Optional.empty());
         when(mutantDetector.isMutant(dna)).thenReturn(false);
+        when(dnaRecordRepository.save(any(DnaRecord.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         boolean result = mutantService.analyzeDna(dna);
 
@@ -86,6 +94,7 @@ class MutantServiceTest {
         // Call twice
         when(dnaRecordRepository.findByDnaHash(anyString())).thenReturn(Optional.empty());
         when(mutantDetector.isMutant(dna)).thenReturn(true);
+        when(dnaRecordRepository.save(any(DnaRecord.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         mutantService.analyzeDna(dna);
         mutantService.analyzeDna(dna);
