@@ -84,21 +84,18 @@ public class MutantDetector {
     }
     private boolean checkVertical(char[][] matrix, int row, int col) {
         char base = matrix[row][col];
-        // CORREGIDO: row aumenta, col se mantiene
         return matrix[row + 1][col] == base &&
                matrix[row + 2][col] == base &&
                matrix[row + 3][col] == base;
     }
     private boolean checkDiagonalDescending(char[][] matrix, int row, int col) {
         char base = matrix[row][col];
-        // CORREGIDO: row aumenta, col aumenta
         return matrix[row + 1][col + 1] == base &&
                matrix[row + 2][col + 2] == base &&
                matrix[row + 3][col + 3] == base;
     }
     private boolean checkDiagonalAscending(char[][] matrix, int row, int col) {
         char base = matrix[row][col];
-        // CORREGIDO: row disminuye, col aumenta
         return matrix[row - 1][col + 1] == base &&
                matrix[row - 2][col + 2] == base &&
                matrix[row - 3][col + 3] == base;

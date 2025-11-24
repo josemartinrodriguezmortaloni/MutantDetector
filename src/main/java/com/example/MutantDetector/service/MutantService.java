@@ -3,6 +3,7 @@ package com.example.MutantDetector.service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -33,10 +34,13 @@ public class MutantService {
         }
         boolean isMutant = mutantDetector.isMutant(dna);
 
-        DnaRecord newRecord = DnaRecord.builder().dnaHash(dnaHash).isMutant(isMutant).build();
-
-        dnaRecordRepository.save(newRecord);
-        log.info("Nuevo análisis guardado. Hash: {}, Es mutante: {}", dnaHash, isMutant);
+        DnaRecord newRecord = Objects.requireNonNull(
+            DnaRecord.builder().dnaHash(dnaHash).isMutant(isMutant).build(),
+            "Error construyendo DnaRecord"
+        );
+        DnaRecord savedRecord = dnaRecordRepository.save(newRecord);
+        
+        log.info("Nuevo análisis guardado. Hash: {}, Es mutante: {}", savedRecord.getDnaHash(), savedRecord.isMutant());
         return isMutant;
     }
     private String calculateDnaHash(String[] dna){

@@ -1,7 +1,8 @@
 package com.example.MutantDetector.service;
 
-import com.example.MutantDetector.dto.StatsResponse;
-import com.example.MutantDetector.repository.DnaRecordRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,8 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import com.example.MutantDetector.dto.StatsResponse;
+import com.example.MutantDetector.repository.DnaRecordRepository;
 
 @ExtendWith(MockitoExtension.class)
 class StatsServiceTest {
@@ -44,7 +45,7 @@ class StatsServiceTest {
 
         assertEquals(10, stats.getCountMutantDna());
         assertEquals(0, stats.getCountHumanDna());
-        assertEquals(10.0, stats.getRatio()); // Or whatever your logic was (countMutant if human=0)
+        assertEquals(10.0, stats.getRatio()); // O cualquier lógica que uses (countMutant si human=0)
     }
 
     @Test
