@@ -85,4 +85,28 @@ class MutantControllerTest {
                 .andExpect(jsonPath("$.count_human_dna").exists())
                 .andExpect(jsonPath("$.ratio").exists());
     }
+
+    @Test
+    @DisplayName("POST /mutant debe retornar 400 para caracteres inválidos")
+    void testDetectMutant_ReturnsBadRequest_InvalidCharacters() throws Exception {
+        String[] dna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTX", "TCACTG"};
+        DnaRequest request = new DnaRequest(dna);
+        
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("POST /mutant debe retornar 400 para matriz no cuadrada")
+    void testDetectMutant_ReturnsBadRequest_NonSquare() throws Exception {
+        String[] dna = {"ATGC", "CAG"};
+        DnaRequest request = new DnaRequest(dna);
+        
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
 }

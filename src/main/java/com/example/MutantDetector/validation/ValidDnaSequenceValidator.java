@@ -1,9 +1,12 @@
 package com.example.MutantDetector.validation;
 
+import java.util.Set;
+
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class ValidDnaSequenceValidator  implements ConstraintValidator<ValidDnaSequence, String[]>{
+    private static final Set<Character> VALID_BASES = Set.of('A', 'T', 'C', 'G');
     @Override
     public void initialize(ValidDnaSequence constraintAnnotation){}
     @Override
@@ -35,7 +38,7 @@ public class ValidDnaSequenceValidator  implements ConstraintValidator<ValidDnaS
     }
 
     public boolean isValidCharacter(char c) {
-        return c == 'A' || c == 'T' || c == 'C' || c == 'G';
+        return VALID_BASES.contains(c);
     }
     
 }

@@ -244,4 +244,111 @@ class MutantDetectorTest {
 
         assertTrue(mutantDetector.isMutant(dna));
     }
+
+    @Test
+    @DisplayName("Debe procesar matriz 1000x1000 en tiempo razonable")
+    void testPerformance1000x1000() {
+        int size = 1000;
+        String[] dna = new String[size];
+        char[] row = new char[size];
+        Arrays.fill(row, 'T');
+        for(int i = 0; i < size; i++) {
+            dna[i] = new String(row);
+        }
+        
+        // Inyectar 2 secuencias para mutante
+        char[] row0 = dna[0].toCharArray();
+        row0[0]='A'; row0[1]='A'; row0[2]='A'; row0[3]='A';
+        dna[0] = new String(row0);
+        
+        char[] row500 = dna[500].toCharArray();
+        row500[500]='C'; row500[501]='C'; row500[502]='C'; row500[503]='C';
+        dna[500] = new String(row500);
+        
+        long startTime = System.nanoTime();
+        boolean result = mutantDetector.isMutant(dna);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1_000_000; // ms
+        
+        assertTrue(result);
+        assertTrue(duration < 5000, "Tiempo de ejecución debe ser < 5000ms, fue: " + duration + "ms");
+    }
+
+    @Test
+    @DisplayName("Debe terminar temprano al encontrar segunda secuencia")
+    void testEarlyTermination() {
+        // Matriz donde la segunda secuencia está al inicio
+        String[] dna = {
+            "ACGT",  // Primera secuencia vertical en columna 0
+            "ACGT",
+            "ACGT",
+            "ACGT"
+        };
+        // Agregar segunda secuencia horizontal en fila 0
+        dna[0] = "AAAA";
+        
+        assertTrue(mutantDetector.isMutant(dna));
+    }
+
+    @Test
+    @DisplayName("Debe detectar mutante en matriz mínima 4x4")
+    void testMinimumSizeMutant() {
+        String[] dna = {
+            "AAAA",
+            "CCCC",
+            "TTTT",
+            "GGGG"
+        };
+        assertTrue(mutantDetector.isMutant(dna));
+    }
+
+    @Test
+    @DisplayName("Debe detectar humano en matriz mínima 4x4")
+    void testMinimumSizeHuman() {
+        String[] dna = {
+            "ATGC",
+            "CAGT",
+            "TTAT",
+            "AGAC"
+        };
+        assertFalse(mutantDetector.isMutant(dna));
+    }
+
+    @Test
+    @DisplayName("Debe detectar secuencia en el borde de la matriz")
+    void testSequenceAtMatrixEdge() {
+        String[] dna = {
+            "AAAAT",
+            "CAGTC",
+            "TTATT",
+            "AGACG",
+            "GCGTC"
+        };
+        assertTrue(mutantDetector.isMutant(dna));
+    }
+
+    @Test
+    @DisplayName("Debe manejar múltiples secuencias superpuestas")
+    void testOverlappingSequences() {
+        String[] dna = {
+            "AAAAA",  // AAAA aparece múltiples veces
+            "CAGTC",
+            "TTATT",
+            "AGACG",
+            "GCGTC"
+        };
+        assertTrue(mutantDetector.isMutant(dna));
+    }
+
+    @Test
+    @DisplayName("Debe rechazar caracteres minúsculos")
+    void testLowerCaseCharacters() {
+        String[] dna = {
+            "atgc",
+            "CAGT",
+            "TTAT",
+            "AGAC"
+        };
+        assertFalse(mutantDetector.isMutant(dna));
+    }
 }

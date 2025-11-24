@@ -1,5 +1,7 @@
 package com.example.MutantDetector.service;
 
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MutantDetector {
     private static final int SEQUENCE_LENGTH = 4;
     private static final int MUTANT_SEQUENCE_LIMIT = 1;
+    private static final Set<Character> VALID_BASES = Set.of('A', 'T', 'C', 'G');
     
     public boolean isMutant(String[] dna) {
         if (dna == null || dna.length == 0) {
@@ -73,7 +76,7 @@ public class MutantDetector {
         return isMutant;
     }
     private boolean isValidDnaCharacter(char c){
-        return c == 'A' || c == 'T' || c == 'C' || c == 'G';
+        return VALID_BASES.contains(c);
     }
     
     private boolean checkHorizontal(char[][] matrix, int row, int col) {
