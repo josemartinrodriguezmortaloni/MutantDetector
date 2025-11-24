@@ -71,7 +71,7 @@ El proyecto sigue una arquitectura limpia dividida en capas:
 ./gradlew bootRun
 ```
 
-La aplicación iniciará en `http://localhost:8080`.
+La aplicación iniciará en `http://localhost:8081`.
 
 **3. Ejecutar Tests:**
 
@@ -91,8 +91,9 @@ El reporte estará disponible en: `build/reports/jacoco/test/html/index.html`
 
 ## 🌐 API Reference
 
-Una vez iniciada la aplicación, puedes consultar la documentación interactiva en Swagger UI:
-👉 **[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)**
+Una vez iniciada la aplicación, puedes consultar la documentación interactiva y probar el endpoint de detección directamente en Swagger UI:
+
+👉 **[http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant](http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant)**
 
 ### Endpoints Principales
 

@@ -34,7 +34,7 @@ public class MutantController {
             @ApiResponse(responseCode = "403", description = "Es Humano (No Mutante)", content = @Content),
             @ApiResponse(responseCode = "400", description = "ADN Inválido (No cuadrado, caracteres erróneos, null)", content = @Content)
     })
-    @PostMapping("/mutant")
+    @PostMapping("/api/mutant")
     public ResponseEntity<Void> detectMutant(@Valid @RequestBody DnaRequest dnaRequest){
         boolean isMutant = mutantService.analyzeDna(dnaRequest.getDna());
         if(isMutant){
@@ -44,10 +44,16 @@ public class MutantController {
         }
     }
 
+    @Operation(summary = "Verificar estado del endpoint de mutantes", description = "Retorna un mensaje indicando que se debe usar POST para enviar ADN.")
+    @GetMapping("/api/getmutant")
+    public ResponseEntity<String> getMutantInfo() {
+        return ResponseEntity.ok("Para detectar un mutante, envía una petición POST a esta URL con la secuencia de ADN en el cuerpo del mensaje.");
+    }
+
     @Operation(summary = "Obtener estadísticas", description = "Retorna estadísticas de las verificaciones de ADN realizadas: conteo de mutantes, humanos y ratio.")
     @ApiResponse(responseCode = "200", description = "Estadísticas obtenidas correctamente", 
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = StatsResponse.class)))
-    @GetMapping("/stats")
+    @GetMapping("/api/stats")
     public ResponseEntity<StatsResponse> getStats() {
         return ResponseEntity.ok(statsService.getStats());
     }
