@@ -109,4 +109,73 @@ class MutantControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Integración completa: POST /mutant debe guardar resultado en BD y actualizar stats")
+    void testIntegration_MutantSavesToDatabase() throws Exception {
+        String[] mutantDna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
+        DnaRequest request = new DnaRequest(mutantDna);
+        
+        // Primera llamada - debe guardar
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+        
+        // Verificar que se guardó en BD consultando stats
+        mockMvc.perform(get("/api/stats"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count_mutant_dna").value(1))
+                .andExpect(jsonPath("$.count_human_dna").value(0));
+        
+        // Segunda llamada con mismo ADN - debe usar cache (no duplicar)
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+        
+        // Verificar que NO se duplicó
+        mockMvc.perform(get("/api/stats"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count_mutant_dna").value(1))  // Sigue siendo 1
+                .andExpect(jsonPath("$.count_human_dna").value(0));
+    }
+
+    @Test
+    @DisplayName("Integración: Deduplicación por hash y cálculo correcto de estadísticas")
+    void testIntegration_DeduplicationAndStats() throws Exception {
+        String[] mutantDna1 = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
+        String[] mutantDna2 = {"AAAA", "CCCC", "TTTT", "GGGG"};
+        String[] humanDna1 = {"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"};
+        String[] humanDna2 = {"ATGC", "CAGT", "TTAT", "AGAC"};
+        
+        // Enviar múltiples ADNs
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna1))));
+        
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna2))));
+        
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new DnaRequest(humanDna1))));
+        
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new DnaRequest(humanDna2))));
+        
+        // Intentar duplicar el primer mutante
+        mockMvc.perform(post("/api/mutant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna1))));
+        
+        // Verificar estadísticas finales
+        mockMvc.perform(get("/api/stats"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.count_mutant_dna").value(2))  // Solo 2 mutantes únicos
+                .andExpect(jsonPath("$.count_human_dna").value(2))   // 2 humanos únicos
+                .andExpect(jsonPath("$.ratio").value(1.0));           // Ratio = 2/2 = 1.0
+    }
 }

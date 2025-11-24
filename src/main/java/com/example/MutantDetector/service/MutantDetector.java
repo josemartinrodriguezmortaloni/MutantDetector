@@ -40,33 +40,48 @@ public class MutantDetector {
         int sequenceCount = 0;
 
         for (int row = 0; row < n; row++) {
-                for (int col = 0; col < n; col++){
-                if (sequenceCount > MUTANT_SEQUENCE_LIMIT) {
-                    log.debug("Mutante detectado (Early termination)");
-                    return true;
-                }
-                // Horizontal
+            for (int col = 0; col < n; col++){
+                // Horizontal (más rápido, verificar primero)
                 if (col <= n - SEQUENCE_LENGTH){
                     if (checkHorizontal(matrix, row, col)){
-                        sequenceCount ++;
+                        sequenceCount++;
+                        if (sequenceCount > MUTANT_SEQUENCE_LIMIT) {
+                            log.debug("Mutante detectado (Early termination)");
+                            return true;
+                        }
                     }
                 }
-                // Vertical
+                
+                // Vertical (más rápido, verificar segundo)
                 if (row <= n - SEQUENCE_LENGTH){
                     if (checkVertical(matrix, row, col)){
-                        sequenceCount ++;
+                        sequenceCount++;
+                        if (sequenceCount > MUTANT_SEQUENCE_LIMIT) {
+                            log.debug("Mutante detectado (Early termination)");
+                            return true;
+                        }
                     }
                 }
-                // Diagonal Descendente
+                
+                // Diagonal Descendente (solo si hay espacio)
                 if (row <= n - SEQUENCE_LENGTH && col <= n - SEQUENCE_LENGTH){
                     if (checkDiagonalDescending(matrix, row, col)){
-                        sequenceCount ++;
+                        sequenceCount++;
+                        if (sequenceCount > MUTANT_SEQUENCE_LIMIT) {
+                            log.debug("Mutante detectado (Early termination)");
+                            return true;
+                        }
                     }
                 }
-                // Diagonal Ascendente
+                
+                // Diagonal Ascendente (solo si hay espacio)
                 if (row >= SEQUENCE_LENGTH - 1 && col <= n - SEQUENCE_LENGTH){
                     if (checkDiagonalAscending(matrix, row, col)){
-                        sequenceCount ++;
+                        sequenceCount++;
+                        if (sequenceCount > MUTANT_SEQUENCE_LIMIT) {
+                            log.debug("Mutante detectado (Early termination)");
+                            return true;
+                        }
                     }
                 }
             }
