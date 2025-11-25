@@ -161,7 +161,7 @@ El objetivo de cobertura de código es **superior al 80%**.
 ## ☁️ Despliegue
 
 La API está preparada para ser desplegada en servicios cloud como Render.
-URL de producción: `[URL Render](https://mutantdetector-ghb4.onrender.com)`
+URL de producción: `https://mutantdetector-ghb4.onrender.com`
 
 ---
 *Desarrollado por José Martín Rodriguez Mortaloni.*
