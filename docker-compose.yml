@@ -34,7 +34,7 @@ services:
       - LOGGING_LEVEL_COM_EXAMPLE_MUTANTDETECTOR=DEBUG
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8081/stats"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8081/api/stats"]
       interval: 30s
       timeout: 10s
       retries: 3
