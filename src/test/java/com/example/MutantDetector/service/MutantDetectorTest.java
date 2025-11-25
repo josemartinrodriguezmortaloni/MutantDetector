@@ -318,11 +318,11 @@ class MutantDetectorTest {
     @DisplayName("Debe detectar secuencia en el borde de la matriz")
     void testSequenceAtMatrixEdge() {
         String[] dna = {
-            "AAAAT",
+            "AAAAT",  // Horizontal AAAA en borde superior (col 0-3)
             "CAGTC",
             "TTATT",
             "AGACG",
-            "GCGTC"
+            "CCCCC"   // Horizontal CCCC en borde inferior (col 0-3)
         };
         assertTrue(mutantDetector.isMutant(dna));
     }

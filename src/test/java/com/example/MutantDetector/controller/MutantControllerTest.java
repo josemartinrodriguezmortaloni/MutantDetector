@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.MutantDetector.dto.DnaRequest;
@@ -112,6 +113,7 @@ class MutantControllerTest {
 
     @Test
     @DisplayName("Integración completa: POST /mutant debe guardar resultado en BD y actualizar stats")
+    @Sql(statements = "DELETE FROM dna_records", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void testIntegration_MutantSavesToDatabase() throws Exception {
         String[] mutantDna = {"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
         DnaRequest request = new DnaRequest(mutantDna);
