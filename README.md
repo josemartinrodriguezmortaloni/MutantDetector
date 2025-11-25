@@ -94,6 +94,9 @@ El reporte estará disponible en: `build/reports/jacoco/test/html/index.html`
 Una vez iniciada la aplicación, puedes consultar la documentación interactiva y probar el endpoint de detección directamente en Swagger UI:
 
 👉 **[http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant](http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant)**
+O
+<https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant>
+👉 **[https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant](https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant)**
 
 ### Endpoints Principales
 
@@ -157,7 +160,7 @@ El objetivo de cobertura de código es **superior al 80%**.
 ## ☁️ Despliegue
 
 La API está preparada para ser desplegada en servicios cloud como Render.
-URL de producción: `[INSERTA_TU_URL_DE_RENDER_AQUI]`
+URL de producción: `[URL Render](https://mutantdetector-ghb4.onrender.com)`
 
 ---
 *Desarrollado por José Martín Rodriguez Mortaloni.*
