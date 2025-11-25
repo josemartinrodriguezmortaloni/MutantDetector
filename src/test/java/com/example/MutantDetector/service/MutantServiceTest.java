@@ -36,6 +36,7 @@ class MutantServiceTest {
 
     @Test
     @DisplayName("Debe retornar resultado cacheado si ya existe en BD")
+    @SuppressWarnings("null")
     void testAnalyzeDna_ReturnsCachedResult() {
         String[] dna = {"AAAA", "CCCC", "TTTT", "GGGG"};
         DnaRecord existingRecord = new DnaRecord();
@@ -52,6 +53,7 @@ class MutantServiceTest {
 
     @Test
     @DisplayName("Debe analizar y guardar si no existe en BD (Mutante)")
+    @SuppressWarnings("null")
     void testAnalyzeDna_NewMutant_SavesAndReturnsTrue() {
         String[] dna = {"AAAA", "CCCC", "TTTT", "GGGG"};
         
@@ -70,6 +72,7 @@ class MutantServiceTest {
 
     @Test
     @DisplayName("Debe analizar y guardar si no existe en BD (Humano)")
+    @SuppressWarnings("null")
     void testAnalyzeDna_NewHuman_SavesAndReturnsFalse() {
         String[] dna = {"ATGC", "CAGT", "TTAT", "AGAC"};
 
@@ -88,6 +91,7 @@ class MutantServiceTest {
 
     @Test
     @DisplayName("Debe calcular el mismo hash para el mismo ADN")
+    @SuppressWarnings("null")
     void testAnalyzeDna_ConsistentHash() {
         String[] dna = {"AAAA", "CCCC"};
         

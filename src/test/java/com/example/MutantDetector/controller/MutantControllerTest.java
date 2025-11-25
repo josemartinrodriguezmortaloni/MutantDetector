@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SuppressWarnings("null")
 class MutantControllerTest {
 
     @Autowired
@@ -29,6 +32,14 @@ class MutantControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private MediaType getApplicationJson() {
+        return Objects.requireNonNull(MediaType.APPLICATION_JSON);
+    }
+
+    private String toJsonString(Object obj) throws Exception {
+        return Objects.requireNonNull(objectMapper.writeValueAsString(obj));
+    }
+
     @Test
     @DisplayName("POST /mutant debe retornar 200 OK cuando es mutante")
     void testDetectMutant_ReturnsOk() throws Exception {
@@ -36,8 +47,8 @@ class MutantControllerTest {
         DnaRequest request = new DnaRequest(dna);
 
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .contentType(getApplicationJson())
+                .content(toJsonString(request)))
                 .andExpect(status().isOk());
     }
 
@@ -48,8 +59,8 @@ class MutantControllerTest {
         DnaRequest request = new DnaRequest(dna);
 
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .contentType(getApplicationJson())
+                .content(toJsonString(request)))
                 .andExpect(status().isForbidden());
     }
 
@@ -73,12 +84,12 @@ class MutantControllerTest {
         String[] humanDna = {"ATGCGA", "CAGTGC", "TTATTT", "AGACGG", "GCGTCA", "TCACTG"};
         
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(mutantDna))));
         
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(humanDna))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(humanDna))));
 
         mockMvc.perform(get("/api/stats"))
                 .andExpect(status().isOk())
@@ -120,8 +131,8 @@ class MutantControllerTest {
         
         // Primera llamada - debe guardar
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .contentType(getApplicationJson())
+                .content(toJsonString(request)))
                 .andExpect(status().isOk());
         
         // Verificar que se guardó en BD consultando stats
@@ -132,8 +143,8 @@ class MutantControllerTest {
         
         // Segunda llamada con mismo ADN - debe usar cache (no duplicar)
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .contentType(getApplicationJson())
+                .content(toJsonString(request)))
                 .andExpect(status().isOk());
         
         // Verificar que NO se duplicó
@@ -153,25 +164,25 @@ class MutantControllerTest {
         
         // Enviar múltiples ADNs
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna1))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(mutantDna1))));
         
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna2))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(mutantDna2))));
         
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(humanDna1))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(humanDna1))));
         
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(humanDna2))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(humanDna2))));
         
         // Intentar duplicar el primer mutante
         mockMvc.perform(post("/api/mutant")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new DnaRequest(mutantDna1))));
+                .contentType(getApplicationJson())
+                .content(toJsonString(new DnaRequest(mutantDna1))));
         
         // Verificar estadísticas finales
         mockMvc.perform(get("/api/stats"))
