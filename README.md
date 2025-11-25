@@ -94,8 +94,9 @@ El reporte estará disponible en: `build/reports/jacoco/test/html/index.html`
 Una vez iniciada la aplicación, puedes consultar la documentación interactiva y probar el endpoint de detección directamente en Swagger UI:
 
 👉 **[http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant](http://localhost:8081/swagger-ui/index.html#/Mutant%20Detector/detectMutant)**
-O
-<https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant>
+
+O también por:
+
 👉 **[https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant](https://mutantdetector-ghb4.onrender.com/swagger-ui/index.html#/Mutant%20Detector/detectMutant)**
 
 ### Endpoints Principales
