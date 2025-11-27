@@ -5,8 +5,7 @@
 ![Coverage](https://img.shields.io/badge/Coverage-%3E80%25-success)
 
 ## 📋 Descripción del Proyecto
-
-Magneto quiere reclutar la mayor cantidad de mutantes para poder luchar contra los X-Men. Este proyecto implementa una API REST para detectar si un humano es mutante basándose en su secuencia de ADN.
+Este proyecto implementa una API REST para detectar si un humano es mutante basándose en su secuencia de ADN.
 
 El programa cumple con los 3 niveles del desafío:
 
